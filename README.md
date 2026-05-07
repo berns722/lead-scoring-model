@@ -24,13 +24,16 @@ lead-conversion/
 │   ├── data_loader.py
 │   ├── data_preprocessing.py
 │   ├── model.py
-│   ├── evaluate.py
+│   └── evaluate.py
 │
 ├── notebooks/
 │   └── exploration.ipynb
 │
 ├── data/
+│   └── ExtraaLearn.csv
+│
 ├── app/
+│
 └── README.md
 ```
 ## ML Pipeline
@@ -63,19 +66,24 @@ Recall and F1 are prioritized due to the business objective of minimizing missed
 
 **Baseline Model:**
  
- - Recall: XX%
- - F1 Score: XX%
+ - Recall: 58%
+ - F1 Score: 62.1%
 
  **Tuned Model:**
 
-  - Recall: XX%
- - F1 Score: XX%
+  - Recall: 58.3%
+   - F1 Score: 62.6%
+
+ Marginal improvement over baseline suggests the decision tree 
+is near its performance ceiling on this dataset. 
+Ensemble methods (Random Forest, Gradient Boosting) are 
+identified as the logical next step.
 
 ## How to Run
 
- 1. Clone the repository: git clone \<repo-url>
- 2. Navigate to the project: cd lead-conversion
- 3. Install dependencies: pip install -r requirements.txt
+ 1. Clone the repository: ```git clone https://github.com/berns722/lead-conversion-system```
+ 2. Navigate to the project: ```cd lead-conversion```
+ 3. Install dependencies: ```pip install -r requirements.txt```
  4. Run the notebook or script: jupyter notebook
 
 ## Key Learnings

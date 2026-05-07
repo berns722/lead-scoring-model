@@ -2,12 +2,12 @@
 
 import pandas as pd
 from sklearn.metrics import (
-    confusion_matrix,
     accuracy_score,
+    f1_score,
     precision_score,
     recall_score,
-    f1_score,
 )
+
 
 # Function to compute different metrics to check performance of a classification model
 def model_performance_classification(model, predictors, target):
@@ -29,7 +29,12 @@ def model_performance_classification(model, predictors, target):
 
     # creating a dataframe of metrics
     df_perf = pd.DataFrame(
-        {"Accuracy": acc, "Recall": recall, "Precision": precision, "F1": f1,},
+        {
+            "Accuracy": acc,
+            "Recall": recall,
+            "Precision": precision,
+            "F1": f1,
+        },
         index=[0],
     )
 

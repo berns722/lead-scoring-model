@@ -1,7 +1,8 @@
 # Model training functions
 
+from sklearn.pipeline import make_pipeline
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.pipeline import make_pipeline,Pipeline
+
 
 def train_decision_tree(preprocessor, X_train, y_train, random_state=1):
     """
