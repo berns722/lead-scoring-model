@@ -1,0 +1,14 @@
+# Model files
+backend_files/
+
+# Data
+data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Joblib models
+*.joblib
