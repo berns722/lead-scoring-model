@@ -13,6 +13,7 @@ def head_and_tail(df, n=5):
     display(df.tail(n))
 
 
+# TODO: add five-number summary annotations to boxplot (min, Q1, median, Q3, max)
 def histogram_boxplot(data, feature, figsize=(15, 10), kde=False, bins=None):
     """
     Boxplot and histogram combined.
@@ -29,14 +30,30 @@ def histogram_boxplot(data, feature, figsize=(15, 10), kde=False, bins=None):
         gridspec_kw={"height_ratios": (0.25, 0.75)},
         figsize=figsize,
     )
-    sns.boxplot(data=data, x=feature, ax=ax_box2, showmeans=True, color="violet")
+    sns.boxplot(
+        data=data,
+        x=feature,
+        ax=ax_box2,
+        showmeans=True,
+        meanline=True,
+        meanprops={"linestyle": "--", "linewidth": 1.5, "color": "red"},
+    )
     sns.histplot(
         data=data, x=feature, kde=kde, ax=ax_hist2, bins=bins
     ) if bins else sns.histplot(data=data, x=feature, kde=kde, ax=ax_hist2)
-    ax_hist2.axvline(data[feature].mean(), color="green", linestyle="--")
-    ax_hist2.axvline(data[feature].median(), color="black", linestyle="-")
-
-    # function to create labeled barplots
+    ax_hist2.axvline(
+        data[feature].mean(),
+        color="red",
+        linestyle="--",
+        label=f"Mean: {data[feature].mean():,.0f}",
+    )
+    ax_hist2.axvline(
+        data[feature].median(),
+        color="black",
+        linestyle="-",
+        label=f"Median: {data[feature].median():,.0f}",
+    )
+    ax_hist2.legend()
 
 
 def labeled_barplot(data, feature, perc=False, n=None):
