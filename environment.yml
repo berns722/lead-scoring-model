@@ -1,0 +1,17 @@
+name: ml-lab
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.14
+  - ipykernel
+  - notebook
+  - seaborn
+  - pip
+  - pip:
+    - pandas==2.2.2
+    - numpy==2.0.2
+    - scikit-learn==1.6.1
+    - matplotlib==3.10.0
+    - joblib==1.4.2
+    - streamlit

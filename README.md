@@ -36,6 +36,32 @@ lead-conversion/
 │
 └── README.md
 ```
+## How to Run
+
+1. Clone the repository:
+```bash
+   git clone https://github.com/berns722/lead-scoring-model.git
+   cd lead-scoring-model
+```
+
+2. Create and activate the conda environment:
+```bash
+   conda env create -f environment.yml
+   conda activate ml-lab
+```
+
+3. Launch the notebook:
+```bash
+   jupyter notebook notebooks/exploration.ipynb
+```
+
+4. To retrain and serialize the model, run all cells in the notebook.
+   The trained model will be saved to `backend_files/learn_model.joblib`.
+
+5. *(Coming soon)* Launch the Streamlit app:
+```bash
+   streamlit run app/main.py
+```
 ## ML Pipeline
 
 1. Data loading
