@@ -3,15 +3,15 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.14
+  - python=3.12
   - ipykernel
   - notebook
   - seaborn
+  - pandas=2.2.2
+  - numpy=2.0.2
+  - scikit-learn=1.6.1
+  - matplotlib=3.10.0
+  - joblib=1.4.2
   - pip
   - pip:
-    - pandas==2.2.2
-    - numpy==2.0.2
-    - scikit-learn==1.6.1
-    - matplotlib==3.10.0
-    - joblib==1.4.2
     - streamlit
