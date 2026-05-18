@@ -1,4 +1,4 @@
-name: ml-lab
+name: lead-scoring-model
 channels:
   - defaults
   - conda-forge
