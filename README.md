@@ -1,10 +1,10 @@
 # Lead Scoring Model
 
-A machine learning pipeline that predicts whether a lead will convert into a paying customer, helping sales teams prioritize outreach and improve conversion rates.
+A machine learning pipeline that scores leads by their probability of converting into paying customers, helping sales teams prioritize outreach.
 
 ## Business Problem
 
-EdTech platforms like ExtraaLearn generate large volumes of leads, but only a fraction convert into paying customers. Identifying high-probability leads early lets sales teams allocate effort efficiently. This project builds an interpretable classification model to predict lead conversion from behavioral and demographic data, and surfaces the factors that drive it.
+EdTech platforms like ExtraaLearn generate large volumes of leads, but only a fraction convert into paying customers. Identifying high-probability leads early lets sales teams allocate effort efficiently. This project builds a lead scoring model on behavioral and demographic data, evaluates it as both a classifier and a ranking tool, and surfaces the factors that drive conversion.
 
 ## Dataset
 
@@ -20,7 +20,6 @@ lead-scoring-model/
 │   ├── data_loader.py
 │   ├── data_preprocessing.py
 │   ├── eda.py
-│   ├── model.py
 │   └── evaluate.py
 ├── notebooks/
 │   └── exploration.ipynb
@@ -32,25 +31,47 @@ lead-scoring-model/
 
 ## Approach
 
-- **Model:** Decision Tree Classifier — an interpretable baseline whose splits map directly to actionable rules
-- **Preprocessing:** `ColumnTransformer` one-hot encodes categorical features and passes numerical features through; trees are scale-invariant, so no scaling is applied
-- **Tuning:** `GridSearchCV` over `max_depth`, `max_leaf_nodes`, and `min_samples_leaf`, scored on recall with 5-fold cross-validation
-- **Imbalance:** no resampling or class weighting applied; recall-focused tuning addresses the business priority directly
+- **Models compared:** Decision Tree (interpretable baseline), Random Forest (bagging), Gradient Boosting (boosting) — all three share the same preprocessing pipeline for a fair comparison
+- **Preprocessing:** `ColumnTransformer` one-hot encodes categorical features and passes numerical features through unchanged; tree-based models are scale-invariant, so no scaling is applied
+- **Tuning:** `GridSearchCV` on the winning architecture, scored on recall with 5-fold cross-validation. Tuning explored `n_estimators`, `max_depth`, and `learning_rate` but found defaults already well-regularized — the un-tuned model was retained
+- **Imbalance:** no resampling or class weighting applied; recall-focused evaluation addresses the business priority directly
 
 ## Evaluation
 
-Recall is the priority metric — the business cost of missing a converter outweighs the cost of a false positive. F1, precision, and accuracy are tracked alongside it.
+Recall is the primary metric — the business cost of missing a converter outweighs the cost of a false positive. F1, precision, and accuracy are tracked alongside.
 
-| Metric | Baseline | Tuned |
+| Metric | Decision Tree | Random Forest | Gradient Boosting |
+|---|---|---|---|
+| Recall | 65.9% | 68.5% | **72.0%** |
+| F1 | 65.9% | 73.4% | **75.3%** |
+| Precision | 66.0% | 79.2% | **79.0%** |
+| Accuracy | 79.3% | 84.9% | **85.6%** |
+
+Gradient Boosting wins on every test metric. It also produces the smallest train/test gap (~5 points vs ~30 for the other two), reflecting boosting's inherent regularization through learning-rate-controlled sequential trees. The default Gradient Boosting is serialized as the final model.
+
+## Ranking Analysis
+
+A classifier's threshold metrics tell only part of the story. The model's true value as a scoring tool is captured by how well it *ranks* leads — sales can call the top-K highest-scored leads without committing to a binary cutoff.
+
+| Top K leads | Converters in top K | Precision@K | Share of total converters reached |
+|---|---|---|---|
+| 10 | 10 / 10 | 100% | 2.4% |
+| 50 | 50 / 50 | 100% | 11.8% |
+| 100 | 93 / 100 | 93.0% | 22.0% |
+| 200 | 177 / 200 | 88.5% | 41.9% |
+
+The first 50 ranked leads are all converters — a 100% hit rate at the top of the list. Even at K=200 (14% of the test set), precision remains at 88.5% while reaching 42% of all converters. Compared to random calling (~30% conversion rate at any position), this is a ~3× lift at the top of the list.
+
+## Key Drivers of Conversion
+
+| Rank | Feature | Importance |
 |---|---|---|
-| Recall | 65.9% | **69.7%** |
-| F1 | 65.9% | **74.9%** |
-| Precision | 66.0% | **81.0%** |
-| Accuracy | 79.2% | **85.8%** |
+| 1 | Time spent on website | 0.27 |
+| 2 | First interaction: Website | 0.21 |
+| 3 | Profile completion: High | 0.16 |
+| 4 | First interaction: Mobile App | 0.12 |
 
-The unconstrained baseline overfits (perfect training scores, lower test scores). Tuning improves every test metric and narrows the train/test gap. The tuned model is serialized for deployment.
-
-**Strongest predictors of conversion:** time spent on website, followed by website-first interaction and high profile completion — consistent across the correlation analysis and the model's feature importances.
+Time spent on website is the strongest predictor, consistent with the correlation analysis. The model surfaces first-interaction channel in both directions — website-first leads convert at a much higher rate, mobile-first leads convert substantially less. Marketing channel variables (print, digital media, referrals) contribute negligibly, suggesting either limited reach to converting leads or limited capture in the dataset.
 
 ## How to Run
 
@@ -73,8 +94,8 @@ The unconstrained baseline overfits (perfect training scores, lower test scores)
 ## Future Directions
 
 - Deploy the model via the Streamlit app in `app/`
-- Compare against ensemble methods (Random Forest, Gradient Boosting)
-- Deeper segmentation of high-confidence predicted converters
-- Model monitoring and feature engineering
-- Probability ranking
+- Lead segmentation: cluster leads into personas using the same feature set
+- Probability calibration: check whether predicted probabilities match real conversion rates
+- Statistical significance testing across models (McNemar, 5x2cv) for model selection rigor
+- Model monitoring and periodic retraining as new conversion data accumulates
 
