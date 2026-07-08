@@ -3,10 +3,8 @@ title: Lead Scoring Model
 emoji: 📊
 colorFrom: blue
 colorTo: green
-sdk: streamlit
-sdk_version: 1.40.0
-app_file: streamlit_app.py
-python_version: 3.11
+sdk: docker
+app_port: 8501
 pinned: false
 license: mit
 ---
