@@ -15,7 +15,7 @@ import streamlit as st
 
 # Model lives in the repo's models/ directory; this path holds both
 # locally and when deployed from the repo.
-MODEL_PATH = Path(__file__).parent.parent / "models" / "learn_model.joblib"
+MODEL_PATH = Path(__file__).parent / "models" / "learn_model.joblib"
 
 
 @st.cache_resource
