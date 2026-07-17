@@ -2,6 +2,8 @@
 
 A machine learning pipeline that scores leads by their probability of converting into paying customers, helping sales teams prioritize outreach.
 
+**🔗 Live demo: [lead-scoring-model.streamlit.app](https://lead-scoring-model.streamlit.app/)**
+
 ## Business Problem
 
 EdTech platforms like ExtraaLearn generate large volumes of leads, but only a fraction convert into paying customers. Identifying high-probability leads early lets sales teams allocate effort efficiently. This project builds a lead scoring model on behavioral and demographic data, evaluates it as both a classifier and a ranking tool, and surfaces the factors that drive conversion.
@@ -23,9 +25,14 @@ lead-scoring-model/
 │   └── evaluate.py
 ├── notebooks/
 │   └── exploration.ipynb
+├── app/
+│   ├── streamlit_app.py
+│   ├── requirements.txt
+│   └── models/
+│       └── learn_model.joblib
 ├── data/
 │   └── ExtraaLearn.csv
-├── app/
+├── environment.yml
 └── README.md
 ```
 
@@ -75,6 +82,10 @@ Time spent on website is the strongest predictor, consistent with the correlatio
 
 ## How to Run
 
+**Live demo:** [lead-scoring-model.streamlit.app](https://lead-scoring-model.streamlit.app/)
+
+Try the interactive scorer directly — no installation needed. To run locally:
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/berns722/lead-scoring-model.git
@@ -89,11 +100,10 @@ Time spent on website is the strongest predictor, consistent with the correlatio
    ```bash
    jupyter notebook notebooks/exploration.ipynb
    ```
-4. Run all cells to retrain and serialize the model to `backend_files/learn_model.joblib`.
+4. Run all cells to reproduce the analysis and re-serialize the model to `app/models/learn_model.joblib`.
 
 ## Future Directions
 
-- Deploy the model via the Streamlit app in `app/`
 - Lead segmentation: cluster leads into personas using the same feature set
 - Probability calibration: check whether predicted probabilities match real conversion rates
 - Statistical significance testing across models (McNemar, 5x2cv) for model selection rigor
