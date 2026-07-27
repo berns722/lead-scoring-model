@@ -4,6 +4,8 @@ A machine learning pipeline that scores leads by their probability of converting
 
 **🔗 Live demo: [lead-scoring-model.streamlit.app](https://lead-scoring-model.streamlit.app/)**
 
+   ![Lead scoring app](images/demo.png)
+
 ## Business Problem
 
 EdTech platforms like ExtraaLearn generate large volumes of leads, but only a fraction convert into paying customers. Identifying high-probability leads early lets sales teams allocate effort efficiently. This project builds a lead scoring model on behavioral and demographic data, evaluates it as both a classifier and a ranking tool, and surfaces the factors that drive conversion.
