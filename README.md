@@ -21,10 +21,7 @@ EdTech platforms like ExtraaLearn generate large volumes of leads, but only a fr
 ```
 lead-scoring-model/
 ├── src/
-│   ├── data_loader.py
-│   ├── data_preprocessing.py
-│   ├── eda.py
-│   └── evaluate.py
+│   └── data_preprocessing.py
 ├── notebooks/
 │   └── exploration.ipynb
 ├── app/
